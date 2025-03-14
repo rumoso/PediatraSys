@@ -1,0 +1,159 @@
+<div style="margin-top: -50px !important;">
+    <div class="divMain textAlingCenter" style="padding: 30px;">
+        <div class="divTitle-center">
+            Datos del paciente
+        </div>
+        <div class="row top10px">
+            <div class="col-md-12">
+    
+                <div class="textAlingCenter" >
+                    
+                    <div class="row">
+                        <div class="col-md-8">
+                            <mat-form-field fxLayout.xs="column"
+                                style="width: 100%;">
+                                <mat-label>nombre:</mat-label>
+                                <input matInput
+                                        type="text"
+                                        [(ngModel)]="pacienteData.name">
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-4">
+                            <mat-form-field appearance="fill">
+                                <mat-label>Fecha de nacimiento</mat-label>
+                                <input matInput [matDatepicker]="picker" name="tbxPicker" [(ngModel)]="pacienteData.fechaNacimiento">
+                                <mat-hint>Día/Mes/Año</mat-hint>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                        </div>
+                    </div>
+    
+                    
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>
+
+<div style="margin-top: -50px !important;">
+    <div class="divMain textAlingCenter" style="padding: 30px;">
+        <div class="divTitle-center">
+            Datos de la consulta
+        </div>
+        <div class="row top10px">
+            <div class="col-md-12">
+    
+                <div class="textAlingCenter" >
+
+                    <form action=""
+                    autocomplete="off"
+                    [formGroup]="formConsulta"
+                    (ngSubmit)="fn_saveConsulta()">
+
+                        <div class="row">
+                            <div class="col-md-3">
+                                <mat-form-field fxLayout.xs="column"
+                                    style="width: 100%;">
+                                    <mat-label>Peso:</mat-label>
+                                    <input matInput
+                                            type="text"
+                                            formControlName="peso">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-3">
+                                <mat-form-field fxLayout.xs="column"
+                                    style="width: 100%;">
+                                    <mat-label>Talla:</mat-label>
+                                    <input matInput
+                                            type="text"
+                                            formControlName="talla">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-3">
+                                <mat-form-field fxLayout.xs="column"
+                                    style="width: 100%;">
+                                    <mat-label>PC:</mat-label>
+                                    <input matInput
+                                            type="text"
+                                            formControlName="pc">
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-md-3">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>Fecha de consulta</mat-label>
+                                    <input matInput [matDatepicker]="picker2" name="tbxPicker" formControlName="createDate">
+                                    <mat-hint>Día/Mes/Año</mat-hint>
+                                    <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-form-field class="example-full-width with100">
+                                    <mat-label>Motivo de consulta</mat-label>
+                                    <textarea matInput
+                                    cdkTextareaAutosize
+                                    placeholder="Ingrese el Motivo de la consulta"
+                                    formControlName="motivoConsulta"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-form-field class="example-full-width with100">
+                                    <mat-label>Exploración física</mat-label>
+                                    <textarea matInput
+                                    cdkTextareaAutosize
+                                    placeholder="Ingrese los datos de la Exploración física"
+                                    formControlName="expFisica"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <mat-form-field class="example-full-width with100">
+                                    <mat-label>Receta</mat-label>
+                                    <textarea matInput
+                                    cdkTextareaAutosize
+                                    placeholder="Ingrese los datos de la Receta"
+                                    formControlName="receta"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row top10px">
+                            <div class="col-md-12">
+                                <div style="float: left;">
+                                    <button mat-raised-button
+                                    color="primary"
+                                    type="submit"
+                                    class="marginRight10px"
+                                    [disabled]="formConsulta.invalid">Guardar</button>
+                                    
+                                    <button mat-raised-button
+                                    class="marginRight10px"
+                                    type="button"
+                                    (click)="changeRoute('consultaList')">Cancelar</button>
+
+                                    <button mat-raised-button
+                                    type="button"
+                                    (click)="downloadPDF()"
+                                    [disabled]="id == 0">Crear Receta</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>    
+    </div>
+</div>

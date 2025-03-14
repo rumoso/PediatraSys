@@ -1,0 +1,88 @@
+<mat-sidenav-container fullscreen>
+
+    <mat-sidenav #sidenav mode="push">
+        <mat-toolbar >
+            <span>Menú</span>
+
+            <span class="spacer"></span>
+            
+            <button mat-icon-button
+            (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+            
+        </mat-toolbar>
+
+        <mat-nav-list>
+
+            <a routerLink="./dashboard"
+                mat-list-item
+                (click)="sidenav.toggle()">
+                <span class="material-icons marginRight10px">
+                    dashboard
+                    </span>
+                <span>Dashboard</span>
+            </a>
+
+            <a routerLink="./paciente"
+                mat-list-item
+                (click)="sidenav.toggle()">
+                <span class="material-icons marginRight10px">
+                    person
+                    </span>
+                <span>Nuevo paciente</span>
+            </a>
+
+            <a routerLink="./pacienteList"
+                mat-list-item
+                (click)="sidenav.toggle()">
+                <span class="material-icons marginRight10px">
+                    person
+                    </span>
+                <span>Lista de pacientes</span>
+            </a>
+
+            <a routerLink="./consultaList"
+                mat-list-item
+                (click)="sidenav.toggle()">
+                <span class="material-icons marginRight10px">
+                    medication
+                    </span>
+                <span>Lista de Consultas</span>
+            </a>
+
+        </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-toolbar id="headerApp">
+        <button mat-icon-button
+        (click)="sidenav.toggle()">
+            <mat-icon>menu</mat-icon>
+        </button>
+
+        <img width="60"
+                class="manitaSobre"
+                src="assets/img/icons/pediatraSysIco.png"
+                alt=""
+                routerLink="./dashboard">
+        <h1 routerLink="./dashboard"
+            class="manitaSobre">Pediatria SYS</h1>
+        <span class="spacer"></span> 
+
+        <span class="spacer"></span>
+        <img class="imgDashboard" style="width:50px !important" src="assets/img/icons/connectUser.gif"/>
+
+        <span>{{ userLogin!.name }}</span>
+
+        <button mat-button
+        (click)="logout()">
+            <mat-icon mat-list-icon>logout</mat-icon>
+            Logout
+        </button>
+    </mat-toolbar>
+
+    <div class="container">
+        <router-outlet></router-outlet>
+    </div>
+    
+</mat-sidenav-container>

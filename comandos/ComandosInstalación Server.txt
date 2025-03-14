@@ -1,0 +1,7 @@
+Para la web:
+
+- Primero se debe instalar el server
+npm install http-server -g
+
+-- luego correr la aplicación
+http-server "location de la aplicación"

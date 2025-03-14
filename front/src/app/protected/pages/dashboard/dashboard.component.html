@@ -1,0 +1,70 @@
+<div class="row">
+    <div class="col-md-12">
+        <div id="dashboardAutomatico" class="row">
+            <div id="autoDashBoard" class="col-md-12">
+
+                <div class="divAutoDashBoard">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="imgDashboard" style="margin-top: 10px; width: 100px;" src="assets/img/icons/pacienteIco.png"/>
+                        </div>
+                        <div class="col-md-9 cardBodyDashboard">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="label label-success">Pacientes</span>
+                                </div>
+
+                            </div>
+                            <div class="row top20px">
+                                <div class="col-md-12">
+                                    <label class="LabelCountInvoicingDashboard">Da de alta y administra pacientes</label>
+                                </div>
+                            </div>
+                            <div class="row top20px">
+                                <div class="col-md-6">
+                                    <span class="label label-info btnDashBoard"
+                                    (click)="changeRoute('paciente')">Nuevo paciente</span>
+                                </div>
+                                <div class="col-md-6">
+                                    <span class="label label-primary btnDashBoard"
+                                    (click)="changeRoute('pacienteList')">Lista de pacientes</span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="divAutoDashBoard">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <img class="imgDashboard" style="width: 138px;" src="assets/img/icons/consultaIco.gif"/>
+                        </div>
+                        <div class="col-md-9 cardBodyDashboard">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <span class="label label-success">Consultas</span>
+                                </div>
+
+                            </div>
+                            <div class="row top20px">
+                                <div class="col-md-12">
+                                    <label class="LabelCountInvoicingDashboard">Controla tus Consultas</label>
+                                </div>
+                            </div>
+                            <div class="row top20px">
+                                
+                                <div class="col-md-12">
+                                    <span class="label label-primary btnDashBoard"
+                                    (click)="changeRoute('consultaList')">Lista de consultas</span>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
