@@ -8,7 +8,7 @@ import { Pagination, ResponseDB_CRUD, ResponseGet } from '../interfaces/general.
   providedIn: 'root'
 })
 export class PacientesService {
-  
+
   private baseURL: string = environment.baseUrl;
 
   _api: string = 'api/pacientes';
@@ -100,6 +100,10 @@ export class PacientesService {
       idConsulta: id
     }
     return this.http.post<ResponseDB_CRUD>( `${ this.baseURL }/${ this._api }/deleteConsulta`, data);
+  }
+
+  updateFechaNacimiento( data: any ): Observable<ResponseDB_CRUD>  {
+    return this.http.post<ResponseDB_CRUD>( `${ this.baseURL }/${ this._api }/updateFechaNacimiento`, data);
   }
 
 }

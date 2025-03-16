@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./consulta-list.component.css']
 })
 export class ConsultaListComponent {
-  
+
   private _appMain: string = environment.appMain;
 
   title = 'Lista de Consultas';
@@ -39,6 +39,12 @@ export class ConsultaListComponent {
       this.fn_getConsultaListWithPage();
     }
 
+    crearConsultaDesdePaciente( idPaciente: number ){
+
+      localStorage.setItem('pidPaciente', idPaciente.toString());
+      this.servicesGServ.changeRoute( `/${ this._appMain }/consulta` );
+    }
+
     onChangeEvent(event: any){
       this.pagination.search = event.target.value;
       this.fn_getConsultaListWithPage();
@@ -51,12 +57,12 @@ export class ConsultaListComponent {
     edit( id: number ){
       this.servicesGServ.changeRouteWithParameter(`/${ this._appMain }/editarConsulta`, id)
     }
-  
+
     changePagination(pag: Pagination) {
       this.pagination = pag;
       this.fn_getConsultaListWithPage();
     }
-  
+
     fn_getConsultaListWithPage() {
       this.bShowSpinner = true;
       this.pacientesServ.getConsultaListWithPage( this.pagination )
@@ -91,7 +97,7 @@ export class ConsultaListComponent {
                 if( resp.status === 0 ){
                   this.fn_getConsultaListWithPage();
                 }
-                this.servicesGServ.showSnakbar(resp.message);
+                this.servicesGServ.showAlertIA( resp );
                 this.bShowSpinner = false;
               },
               error: (ex: HttpErrorResponse) => {
@@ -99,7 +105,7 @@ export class ConsultaListComponent {
                 this.servicesGServ.showSnakbar( ex.error.errors[0].msg );
                 this.bShowSpinner = false;
               }
-        
+
             })
           }
         }

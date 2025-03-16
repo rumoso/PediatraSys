@@ -10,6 +10,7 @@ import { ProtectedRoutingModule } from './protected-routing.module';
 import { ComponentsModule } from '../components/components.module';
 import { ConsultaComponent } from './pages/consulta/consulta.component';
 import { ConsultaListComponent } from './pages/consulta-list/consulta-list.component';
+import { HistorialClinicoComponent } from './pages/mdl/historial-clinico/historial-clinico.component';
 
 
 
@@ -20,7 +21,8 @@ import { ConsultaListComponent } from './pages/consulta-list/consulta-list.compo
     PacienteListComponent,
     DashboardComponent,
     ConsultaComponent,
-    ConsultaListComponent
+    ConsultaListComponent,
+    HistorialClinicoComponent
   ],
   imports: [
     CommonModule,

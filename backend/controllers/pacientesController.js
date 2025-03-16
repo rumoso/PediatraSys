@@ -1,10 +1,8 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
+const moment = require('moment');
 
 const { dbConnection } = require('../database/config');
-
-process.env.TZ = "America/Mexico_City";
-console.log(new Date().toString());
 
 const getPacientesListWithPage = async(req, res = response) => {
 
@@ -99,7 +97,7 @@ const insertPaciente = async(req, res) => {
 
       var OSQL = await dbConnection.query(`call insertPaciente(
           '${name}'
-          , '${fechaNacimiento}'
+          , '${fechaNacimiento.substring(0, 10)}'
           )`)
 
       res.json({
@@ -133,7 +131,7 @@ const updatePaciente = async(req, res) => {
       var OSQL = await dbConnection.query(`call updatePaciente(
           ${idPaciente}  
           , '${name}'
-          , '${fechaNacimiento}'
+          , '${fechaNacimiento.substring(0, 10)}'
           )`)
 
       res.json({
@@ -272,8 +270,8 @@ const insertHitorialClinico = async(req, res) => {
     }
   }
   
-  const updateHitorialClinico = async(req, res) => {
-     
+const updateHitorialClinico = async(req, res) => {
+    
     const {
         idHistClinico
         ,motivoConsulta
@@ -284,11 +282,11 @@ const insertHitorialClinico = async(req, res) => {
         ,exploracionFisica = ''
         ,diagnosticosProbables = ''
     } = req.body;
-  
+
     console.log(req.body)
-  
+
     try{
-  
+
         var OSQL = await dbConnection.query(`call updateHitorialClinico(
             ${idHistClinico}
             , '${motivoConsulta}'
@@ -314,9 +312,9 @@ const insertHitorialClinico = async(req, res) => {
             data:error.message
         });
     }
-  }
+}
 
-  const getConsultaById = async(req, res = response) => {
+const getConsultaById = async(req, res = response) => {
 
     const {
         idConsulta
@@ -364,7 +362,7 @@ const insertHitorialClinico = async(req, res) => {
 
 const insertConsulta = async(req, res) => {
    
-    const {
+    var {
         createDate
         ,idPaciente
         ,peso = ''
@@ -378,6 +376,14 @@ const insertConsulta = async(req, res) => {
     console.log(req.body)
   
     try{
+
+        
+        var oGetDateNow = moment().format('YYYY-MM-DD HH:mm:ss');
+        var oHrs = moment().format(' HH:mm:ss');
+        //console.log(oGetDateNow)
+
+        createDate = createDate.substring(0, 10) + oHrs;
+        //console.log(createDate)
   
         var OSQL = await dbConnection.query(`call insertConsulta(
             '${createDate}'
@@ -406,9 +412,9 @@ const insertConsulta = async(req, res) => {
     }
   }
   
-  const updateConsulta = async(req, res) => {
+const updateConsulta = async(req, res) => {
      
-    const {
+    var {
         idConsulta
         ,createDate
         ,peso = ''
@@ -422,6 +428,13 @@ const insertConsulta = async(req, res) => {
     console.log(req.body)
   
     try{
+
+        var oGetDateNow = moment().format('YYYY-MM-DD HH:mm:ss');
+        var oHrs = moment().format(' HH:mm:ss');
+        console.log(oGetDateNow)
+
+        createDate = createDate.substring(0, 10) + oHrs;
+        console.log(createDate)
   
         var OSQL = await dbConnection.query(`call updateConsulta(
             ${idConsulta}
@@ -450,7 +463,7 @@ const insertConsulta = async(req, res) => {
     }
   }
 
-  const getConsultaListWithPage = async(req, res = response) => {
+const getConsultaListWithPage = async(req, res = response) => {
 
     const {
         search = '', limiter = 10, start = 0
@@ -459,7 +472,6 @@ const insertConsulta = async(req, res) => {
     console.log(req.body)
 
     try{
-
         var OSQL = await dbConnection.query(`call getConsultaListWithPage('${ search }',${ start },${ limiter })`)
 //console.log(OSQL)
         if(OSQL.length == 0){
@@ -529,18 +541,52 @@ const deleteConsulta = async(req, res) => {
     }
   }
 
+const updateFechaNacimiento = async(req, res) => {
+
+    const {
+        idPaciente,
+        fechaNacimiento = ''
+    } = req.body;
+
+    console.log(req.body)
+
+    try{
+
+        var OSQL = await dbConnection.query(`call updateFechaNacimiento(
+            ${idPaciente}  
+            , '${fechaNacimiento.substring(0, 10)}'
+            )`)
+
+        res.json({
+            status:0,
+            message:"Fecha actualizada con éxito.",
+            insertID: OSQL[0].out_id
+        });
+        
+    }catch(error){
+        
+        res.status(500).json({
+            status:2,
+            message:"Sucedió un error inesperado",
+            data:error
+        });
+    }
+}
+
 module.exports = {
     getPacientesListWithPage
-    ,getPacienteByID
-    ,insertPaciente
-    ,updatePaciente
-    ,deletePaciente
-    ,getHitorialClinicoByIdPaciente
-    ,insertHitorialClinico
-    ,updateHitorialClinico
-    ,getConsultaById
-    ,insertConsulta
-    ,updateConsulta
-    ,getConsultaListWithPage
-    ,deleteConsulta
+    , getPacienteByID
+    , insertPaciente
+    , updatePaciente
+    , deletePaciente
+    , getHitorialClinicoByIdPaciente
+    , insertHitorialClinico
+    , updateHitorialClinico
+    , getConsultaById
+    , insertConsulta
+    , updateConsulta
+    , getConsultaListWithPage
+    , deleteConsulta
+
+    , updateFechaNacimiento
   }

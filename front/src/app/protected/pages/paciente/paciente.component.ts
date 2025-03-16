@@ -16,7 +16,7 @@ import { switchMap } from 'rxjs';
   styleUrls: ['./paciente.component.css']
 })
 export class PacienteComponent implements OnInit {
-  
+
   private _appMain: string = environment.appMain;
 
   title: string = 'Paciente';
@@ -27,8 +27,12 @@ export class PacienteComponent implements OnInit {
   catForm: FormGroup = this.fb.group({
     idPaciente: 0,
     name: ['',[ Validators.required ]],
-    fechaNacimiento: ['2023-01-01',[ Validators.required ]]
+    fechaNacimiento: [this.formatDate(new Date()), [Validators.required]],
   });
+
+  formatDate(date: Date): string {
+    return date.toISOString().split('T')[0] + 'T00:00:00'; // Obtiene solo la parte de la fecha
+  }
 
   formHistorialClinico: FormGroup = this.fb.group({
     idHistClinico: 0,
@@ -85,6 +89,12 @@ export class PacienteComponent implements OnInit {
 
   }
 
+  crearConsultaDesdePaciente( idPaciente: number ){
+
+    localStorage.setItem('pidPaciente', idPaciente.toString());
+    this.servicesGServ.changeRoute( `/${ this._appMain }/consulta` );
+  }
+
   fn_getHitorialClinicoByIdPaciente( idPaciente: number ) {
     this.bShowSpinner = true;
       this.pacientesServ.getHitorialClinicoByIdPaciente( idPaciente )
@@ -104,7 +114,7 @@ export class PacienteComponent implements OnInit {
                 diagnosticosProbables: data.data.rows.diagnosticosProbables,
                });
             }else{
-              this.servicesGServ.showSnakbar(data.message);
+              this.servicesGServ.showAlertIA( data );
             }
 
             this.bShowSpinner = false;
@@ -115,13 +125,13 @@ export class PacienteComponent implements OnInit {
           }
         })
   }
-  
+
 
   changeRoute( route: string ): void {
     this.servicesGServ.changeRoute( `/${ this._appMain }/${ route }` );
   }
 
-  
+
 
   fn_savePaciente() {
     this.bShowSpinner = true;
@@ -129,8 +139,8 @@ export class PacienteComponent implements OnInit {
       this.pacientesServ.updatePaciente( this.catForm.value )
         .subscribe({
           next: (resp: ResponseDB_CRUD) => {
-            
-            this.servicesGServ.showSnakbar(resp.message);
+
+            this.servicesGServ.showAlertIA( resp );
             this.bShowSpinner = false;
           },
           error: (ex) => {
@@ -145,7 +155,7 @@ export class PacienteComponent implements OnInit {
           if( resp.status === 0 ){
             this.id = resp.insertID;
           }
-          this.servicesGServ.showSnakbar(resp.message);
+          this.servicesGServ.showAlertIA( resp );
           this.bShowSpinner = false;
         },
         error: (ex) => {
@@ -165,8 +175,8 @@ export class PacienteComponent implements OnInit {
       this.pacientesServ.updateHitorialClinico( this.formHistorialClinico.value )
         .subscribe({
           next: (resp: ResponseDB_CRUD) => {
-            
-            this.servicesGServ.showSnakbar(resp.message);
+
+            this.servicesGServ.showAlertIA( resp );
             this.bShowSpinner = false;
           },
           error: (ex) => {
@@ -182,7 +192,7 @@ export class PacienteComponent implements OnInit {
           if( resp.status === 0 ){
             this.formHistorialClinico.value.idHistClinico = resp.insertID;
           }
-          this.servicesGServ.showSnakbar(resp.message);
+          this.servicesGServ.showAlertIA( resp );
           this.bShowSpinner = false;
         },
         error: (ex) => {

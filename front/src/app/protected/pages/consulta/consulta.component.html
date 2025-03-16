@@ -1,50 +1,73 @@
-<div style="margin-top: -50px !important;">
-    <div class="divMain textAlingCenter" style="padding: 30px;">
-        <div class="divTitle-center">
-            Datos del paciente
-        </div>
-        <div class="row top10px">
-            <div class="col-md-12">
-    
-                <div class="textAlingCenter" >
-                    
-                    <div class="row">
-                        <div class="col-md-8">
-                            <mat-form-field fxLayout.xs="column"
-                                style="width: 100%;">
-                                <mat-label>nombre:</mat-label>
-                                <input matInput
-                                        type="text"
-                                        [(ngModel)]="pacienteData.name">
-                            </mat-form-field>
-                        </div>
+<div>
+    <div class="divMain" style="padding: 30px;">
+      <div class="divTitle-center">
+          Datos del paciente
+      </div>
+      <div class="row top10px">
+          <div class="col-md-12">
 
-                        <div class="col-md-4">
-                            <mat-form-field appearance="fill">
-                                <mat-label>Fecha de nacimiento</mat-label>
-                                <input matInput [matDatepicker]="picker" name="tbxPicker" [(ngModel)]="pacienteData.fechaNacimiento">
-                                <mat-hint>Día/Mes/Año</mat-hint>
-                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-datepicker #picker></mat-datepicker>
-                                </mat-form-field>
-                        </div>
-                    </div>
-    
-                    
-                </div>
-            </div>
-        </div>    
+              <div class="textAlingCenter" >
+
+                  <div class="row">
+                      <div class="col-md-8">
+                          <mat-form-field fxLayout.xs="column"
+                              style="width: 100%;">
+                              <mat-label>nombre:</mat-label>
+                              <input matInput
+                                      type="text"
+                                      [(ngModel)]="pacienteData.name">
+                          </mat-form-field>
+                      </div>
+
+                      <div class="col-md-4">
+                          <mat-form-field appearance="fill">
+                              <mat-label>Fecha de nacimiento</mat-label>
+                              <input matInput [matDatepicker]="picker" name="tbxPicker" [(ngModel)]="pacienteData.fechaNacimiento" (dateChange)="fn_updateFechaNacimiento()">
+                              <mat-hint>Día/Mes/Año</mat-hint>
+                              <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                              <mat-datepicker #picker></mat-datepicker>
+                              </mat-form-field>
+                      </div>
+                  </div>
+
+
+              </div>
+          </div>
+      </div>
+
+      <div class="row top10px">
+        <div class="col-md-12">
+
+          <button mat-raised-button
+          color="primary"
+          type="submit"
+          class="marginRight10px"
+          (click)="showHistorialClinico()">Historial Clínico</button>
+
+          <button mat-raised-button
+          class="marginRight10px"
+          type="button"
+          (click)="changeRoute('consultaList')">Lista de Consultas</button>
+
+          <button mat-raised-button
+          class="marginRight10px"
+          type="button"
+          (click)="changeRoute('pacienteList')">Lista de Pacientes</button>
+
+        </div>
+      </div>
+
     </div>
 </div>
 
-<div style="margin-top: -50px !important;">
+<div>
     <div class="divMain textAlingCenter" style="padding: 30px;">
         <div class="divTitle-center">
             Datos de la consulta
         </div>
         <div class="row top10px">
             <div class="col-md-12">
-    
+
                 <div class="textAlingCenter" >
 
                     <form action=""
@@ -76,7 +99,7 @@
                             <div class="col-md-3">
                                 <mat-form-field fxLayout.xs="column"
                                     style="width: 100%;">
-                                    <mat-label>PC:</mat-label>
+                                    <mat-label>TEMPERATURA:</mat-label>
                                     <input matInput
                                             type="text"
                                             formControlName="pc">
@@ -138,22 +161,35 @@
                                     type="submit"
                                     class="marginRight10px"
                                     [disabled]="formConsulta.invalid">Guardar</button>
-                                    
-                                    <button mat-raised-button
-                                    class="marginRight10px"
-                                    type="button"
-                                    (click)="changeRoute('consultaList')">Cancelar</button>
 
                                     <button mat-raised-button
                                     type="button"
+                                    class="marginRight10px"
                                     (click)="downloadPDF()"
                                     [disabled]="id == 0">Crear Receta</button>
+
+                                    <button mat-raised-button
+                                    color="primary"
+                                    class="marginRight10px"
+                                    (click)="crearConsultaDesdePaciente(pacienteData.idPaciente)"
+                                    *ngIf="id > 0">Nueva Consulta</button>
+
+                                    <button mat-raised-button
+                                    class="marginRight10px"
+                                    type="button"
+                                    (click)="changeRoute('consultaList')">Lista de Consultas</button>
+
+                                    <button mat-raised-button
+                                    class="marginRight10px"
+                                    type="button"
+                                    (click)="changeRoute('pacienteList')">Lista de Pacientes</button>
+
                                 </div>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>    
+        </div>
     </div>
 </div>

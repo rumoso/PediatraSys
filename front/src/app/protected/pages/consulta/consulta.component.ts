@@ -10,6 +10,10 @@ import { environment } from 'src/environments/environment';
 
 import jsPDF from 'jspdf';
 import { DatePipe } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
+import { HistorialClinicoComponent } from '../mdl/historial-clinico/historial-clinico.component';
+
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-consulta',
@@ -17,7 +21,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./consulta.component.css']
 })
 export class ConsultaComponent implements OnInit {
-  
+
   private _appMain: string = environment.appMain;
 
   title: string = 'Consulta';
@@ -40,19 +44,29 @@ export class ConsultaComponent implements OnInit {
     peso: ['',[ Validators.required ]],
     talla: ['',[ Validators.required ]],
     pc: ['',[ Validators.required ]],
-    motivoConsulta: ['',[ Validators.required ]],
-    expFisica: ['',[ Validators.required ]],
-    receta: [`
-    MEDICAMENTO suspension de 500 mg (AMPICILINA)
-    Ofrecer docis via oral c/ hrs, durante
-
-    MEDICAMENTO suspension de 500 mg (AMPICILINA)
-    Ofrecer docis via oral c/ hrs, durante
-
-    MEDICAMENTO suspension de 500 mg (AMPICILINA)
-    Ofrecer docis via oral c/ hrs, durante
-    `,[ Validators.required ]]
+    motivoConsulta: [''],
+    expFisica: [''],
+    receta: [this.getRecetaConFecha(), [Validators.required]]
   });
+
+  getRecetaConFecha(): string {
+    // Sumar 15 días a la fecha actual
+    moment.locale('es');
+    const fechaCita = moment().add(15, 'days').format('DD/MMMM/YYYY');
+
+    return `
+    MEDICAMENTO suspensión de 500 mg (AMPICILINA)
+    Ofrecer dosis vía oral c/ hrs, durante
+
+    MEDICAMENTO suspensión de 500 mg (AMPICILINA)
+    Ofrecer dosis vía oral c/ hrs, durante
+
+    MEDICAMENTO suspensión de 500 mg (AMPICILINA)
+    Ofrecer dosis vía oral c/ hrs, durante
+
+    CITA: ${fechaCita} - 00:00 Hrs
+    `;
+  }
 
   constructor(
     private fb: FormBuilder
@@ -131,8 +145,64 @@ export class ConsultaComponent implements OnInit {
 
   }
 
+  showHistorialClinico(){
+
+    var oData: any = {
+      id: this.pacienteData.idPaciente
+    }
+
+    this.servicesGServ.showModalWithParams( HistorialClinicoComponent, oData, '1500px')
+    .afterClosed().subscribe({
+      next: ( resp: any ) =>{
+
+        //this.fn_getClientesListWithPage();
+
+      }
+    });
+  }
+
+  crearConsultaDesdePaciente( idPaciente: number ){
+
+    localStorage.setItem('pidPaciente', idPaciente.toString());
+    this.servicesGServ.changeRoute( `/${ this._appMain }/consulta` );
+  }
+
   changeRoute( route: string ): void {
     this.servicesGServ.changeRoute( `/${ this._appMain }/${ route }` );
+  }
+
+  fn_updateFechaNacimiento(){
+
+    this.servicesGServ.showDialog('¿Estás seguro?'
+                                      , 'Está a punto de cambiar la fecha de nacimiento del paciente'
+                                      , '¿Desea continuar?'
+                                      , 'Si', 'No')
+    .afterClosed().subscribe({
+      next: ( resp ) =>{
+        if(resp){
+          this.bShowSpinner = true;
+
+          var oParam: any = {
+            idPaciente: this.pacienteData.idPaciente,
+            fechaNacimiento: this.pacienteData.fechaNacimiento
+          }
+
+          this.pacientesServ.updateFechaNacimiento(oParam)
+          .subscribe({
+            next: (resp: ResponseDB_CRUD) => {
+              this.servicesGServ.showAlertIA( resp );
+              this.bShowSpinner = false;
+            },
+            error: (ex: HttpErrorResponse) => {
+              console.log( ex.error.errors[0].msg )
+              this.servicesGServ.showSnakbar( ex.error.errors[0].msg );
+              this.bShowSpinner = false;
+            }
+
+          })
+        }
+      }
+    });
   }
 
   fn_getPaciente(idPaciente: number){
@@ -196,13 +266,13 @@ export class ConsultaComponent implements OnInit {
   //         }
   //       })
   // }
-  
+
 
   // changeRoute( route: string ): void {
   //   this.servicesGServ.changeRoute( `/${ this._appMain }/${ route }` );
   // }
 
-  
+
 
   fn_saveConsulta() {
     this.bShowSpinner = true;
@@ -212,8 +282,8 @@ export class ConsultaComponent implements OnInit {
       this.pacientesServ.updateConsulta( this.formConsulta.value )
         .subscribe({
           next: (resp: ResponseDB_CRUD) => {
-            
-            this.servicesGServ.showSnakbar(resp.message);
+
+            this.servicesGServ.showAlertIA( resp );
             this.bShowSpinner = false;
           },
           error: (ex) => {
@@ -228,7 +298,7 @@ export class ConsultaComponent implements OnInit {
           if( resp.status === 0 ){
             this.id = resp.insertID;
           }
-          this.servicesGServ.showSnakbar(resp.message);
+          this.servicesGServ.showAlertIA( resp );
           this.bShowSpinner = false;
         },
         error: (ex) => {
@@ -248,8 +318,8 @@ export class ConsultaComponent implements OnInit {
   //     this.pacientesServ.updateHitorialClinico( this.formHistorialClinico.value )
   //       .subscribe({
   //         next: (resp: ResponseDB_CRUD) => {
-            
-  //           this.servicesGServ.showSnakbar(resp.message);
+
+  //           this.servicesGServ.showAlertIA( resp );
   //           this.bShowSpinner = false;
   //         },
   //         error: (ex) => {
@@ -265,7 +335,7 @@ export class ConsultaComponent implements OnInit {
   //         if( resp.status === 0 ){
   //           this.formHistorialClinico.value.idHistClinico = resp.insertID;
   //         }
-  //         this.servicesGServ.showSnakbar(resp.message);
+  //         this.servicesGServ.showAlertIA( resp );
   //         this.bShowSpinner = false;
   //       },
   //       error: (ex) => {
@@ -287,7 +357,7 @@ export class ConsultaComponent implements OnInit {
     var pc = this.formConsulta.value.pc;
 
     var receta = this.formConsulta.value.receta;
-    
+
     //doc.setFont("helvetica")
     doc.setFontSize(10);
 
@@ -304,7 +374,7 @@ export class ConsultaComponent implements OnInit {
 
 
     doc.text(receta, 10, line);
-    
+
 
     doc.save("receta_" + nombre + "_"+ this.datepipe.transform(createDate,'ddMMyyyy') +".pdf");
   }

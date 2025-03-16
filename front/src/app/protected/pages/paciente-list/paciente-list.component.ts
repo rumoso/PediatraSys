@@ -58,12 +58,12 @@ export class PacienteListComponent implements OnInit {
     edit( id: number ){
       this.servicesGServ.changeRouteWithParameter(`/${ this._appMain }/editarPaciente`, id)
     }
-  
+
     changePagination(pag: Pagination) {
       this.pagination = pag;
       this.fn_getPacientesListWithPage();
     }
-  
+
     fn_getPacientesListWithPage() {
       this.bShowSpinner = true;
       this.pacientesServ.getPacientesListWithPage( this.pagination )
@@ -98,7 +98,7 @@ export class PacienteListComponent implements OnInit {
                 if( resp.status === 0 ){
                   this.fn_getPacientesListWithPage();
                 }
-                this.servicesGServ.showSnakbar(resp.message);
+                this.servicesGServ.showAlertIA( resp );
                 this.bShowSpinner = false;
               },
               error: (ex: HttpErrorResponse) => {
@@ -106,7 +106,7 @@ export class PacienteListComponent implements OnInit {
                 this.servicesGServ.showSnakbar( ex.error.errors[0].msg );
                 this.bShowSpinner = false;
               }
-        
+
             })
           }
         }

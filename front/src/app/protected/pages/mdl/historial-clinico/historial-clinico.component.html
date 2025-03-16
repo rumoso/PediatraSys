@@ -1,0 +1,131 @@
+<div class="divMainModal" style="padding: 30px;">
+
+  <button mat-icon-button
+          style="position: absolute; top: 10px; right: 10px;"
+          (click)="close()">
+      <mat-icon>close</mat-icon>
+  </button>
+
+  <div class="divTitle-center">
+      {{title}}
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+
+        <div class="textAlingCenter" >
+
+            <br>
+
+            <form action=""
+            autocomplete="off"
+            [formGroup]="formHistorialClinico"
+            (ngSubmit)="fn_saveHistClinico()">
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width with100">
+                            <mat-label>Motivo de consulta</mat-label>
+                            <textarea matInput
+                            cdkTextareaAutosize
+                            placeholder="Ingrese el Motivo de la consulta"
+                            formControlName="motivoConsulta"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width with100">
+                            <mat-label>Antecedentes personales no patológicos</mat-label>
+                            <textarea matInput
+                            cdkTextareaAutosize
+                            placeholder="Ingrese los Antecedentes personales no patológicos"
+                            formControlName="antePersonNoPatologicos"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width with100">
+                            <mat-label>Antecedentes personales patológicos</mat-label>
+                            <textarea matInput
+                            cdkTextareaAutosize
+                            placeholder="Ingrese los Antecedentes personales patológicos"
+                            formControlName="antePersonPatologicos"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width with100">
+                            <mat-label>Antecedentes perinatales</mat-label>
+                            <textarea matInput
+                            cdkTextareaAutosize
+                            placeholder="Ingrese los antecedentes perinatales"
+                            formControlName="antePerinatales"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width with100">
+                            <mat-label>Padecimiento actual</mat-label>
+                            <textarea matInput
+                            cdkTextareaAutosize
+                            placeholder="Ingrese el Padecimiento actual"
+                            formControlName="padecimientoActual"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6">
+                        <mat-form-field class="example-full-width with100">
+                            <mat-label>Exploración física</mat-label>
+                            <textarea matInput
+                            cdkTextareaAutosize
+                            placeholder="Ingrese la Exploración física"
+                            formControlName="exploracionFisica"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-12">
+                        <mat-form-field class="example-full-width with100">
+                            <mat-label>Diagnosticos probables</mat-label>
+                            <textarea matInput
+                            cdkTextareaAutosize
+                            placeholder="Ingrese los Diagnosticos probables"
+                            formControlName="diagnosticosProbables"></textarea>
+                        </mat-form-field>
+                    </div>
+
+                </div>
+
+                <div class="row top10px">
+                    <div class="col-md-12">
+                        <div style="float: left;">
+                            <button mat-raised-button
+                            color="primary"
+                            type="submit"
+                            class="marginRight10px"
+                            [disabled]="formHistorialClinico.invalid">Guardar</button>
+
+                        </div>
+                    </div>
+                </div>
+
+            </form>
+
+          </div>
+      </div>
+  </div>
+
+
+</div>
+
+<app-spinner [hidden]="!bShowSpinner"></app-spinner>

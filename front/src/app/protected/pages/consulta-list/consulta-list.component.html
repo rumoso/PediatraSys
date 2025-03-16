@@ -1,11 +1,22 @@
-<div class="divMain textAlingCenter" style="width: 100%;">
+<div class="divMain" style="width: 100%;">
     <div class="row">
-        
+
         <div class="col-md-12">
             <div class="divTitle-center">
                 {{ title }}
             </div>
         </div>
+    </div>
+
+    <div class="row top20px">
+      <div class="col-md-12">
+        <button mat-raised-button
+                color="primary"
+                type="submit"
+                (click)="changeRoute('paciente')">
+                Nuevo Paciente
+        </button>
+      </div>
     </div>
 
     <div class="row top20px">
@@ -16,7 +27,7 @@
               </mat-form-field>
         </div>
     </div>
-    
+
     <div class="row top20px">
             <div class="col-md-12">
                 <div class="table-responsive">
@@ -39,6 +50,13 @@
                                             edit
                                         </span>
 
+                                        <img style="margin-top: -20px;"
+                                        src="/assets/img/icons/citaMedica.png"
+                                        class="manitaSobre"
+                                        matTooltip="Nueva Consulta"
+                                        width="35"
+                                        (click)="crearConsultaDesdePaciente(item.idPaciente)">
+
                                         <span class="material-icons manitaSobre colorRed"
                                         matTooltip="Eliminar Consulta"
                                         (click)="fn_deleteConsulta(item.idConsulta)"
@@ -60,11 +78,11 @@
                 <app-pagination *ngIf="list" [IPagination]="pagination"
                                 (OPagination)="changePagination($event)">
                 </app-pagination>
-                
-            
+
+
         </div>
     </div>
-    
+
 </div>
 
 <app-spinner [hidden]="!bShowSpinner"></app-spinner>

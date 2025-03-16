@@ -20,6 +20,8 @@ const {
 
     , getConsultaListWithPage
     , deleteConsulta
+
+    , updateFechaNacimiento
    } = require('../controllers/pacientesController');
 
    
@@ -91,9 +93,7 @@ router.post('/insertConsulta', [
   check('createDate','Fecha obligatoria').not().isEmpty(),
   check('peso','Peso obligatorio').not().isEmpty(),
   check('talla','Talla obligatoria').not().isEmpty(),
-  check('pc','PC obligatorio').not().isEmpty(),
-  check('motivoConsulta','Motivo obligatorio').not().isEmpty(),
-  check('expFisica','Exploración física obligatoria').not().isEmpty(),
+  check('pc','Temperatura obligatorio').not().isEmpty(),
   check('receta','Receta obligatoria').not().isEmpty(),
 
   validarCampos
@@ -104,9 +104,7 @@ router.post('/updateConsulta', [
   check('createDate','Fecha obligatoria').not().isEmpty(),
   check('peso','Peso obligatorio').not().isEmpty(),
   check('talla','Talla obligatoria').not().isEmpty(),
-  check('pc','PC obligatorio').not().isEmpty(),
-  check('motivoConsulta','Motivo obligatorio').not().isEmpty(),
-  check('expFisica','Exploración física obligatoria').not().isEmpty(),
+  check('pc','Temperatura obligatorio').not().isEmpty(),
   check('receta','Receta obligatoria').not().isEmpty(),
 
   validarCampos
@@ -119,5 +117,14 @@ router.post('/deleteConsulta', [
   check('idConsulta','Id debe ser numérico').isNumeric(),
   validarCampos
 ], deleteConsulta);
+
+router.post('/updateFechaNacimiento', [
+  check('idPaciente','Id obligatorio').not().isEmpty(),
+  check('idPaciente','Id debe ser numérico').isNumeric(),
+
+  check('fechaNacimiento','Nombre obligatorio').not().isEmpty(),
+
+  validarCampos
+], updateFechaNacimiento);
 
 module.exports = router;
