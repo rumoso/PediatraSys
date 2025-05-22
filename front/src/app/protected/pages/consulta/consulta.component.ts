@@ -9,6 +9,7 @@ import { ServicesGService } from 'src/app/servicesG/servicesG.service';
 import { environment } from 'src/environments/environment';
 
 import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { HistorialClinicoComponent } from '../mdl/historial-clinico/historial-clinico.component';
@@ -378,4 +379,6 @@ export class ConsultaComponent implements OnInit {
 
     doc.save("receta_" + nombre + "_"+ this.datepipe.transform(createDate,'ddMMyyyy') +".pdf");
   }
+
+
 }
