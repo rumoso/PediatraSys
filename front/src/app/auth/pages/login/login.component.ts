@@ -27,17 +27,17 @@ export class LoginComponent {
         localStorage.setItem('user', '');
         localStorage.setItem('token', '');
       }
-      
+
     }
 
     fn_login() {
-    
+
       if( this.myLogin.valid ){
         this.bShowSpinner = true;
-  
+
         //console.log(this.myLogin.value)
         //this.servicesGService.showSnakbar( this.myLogin.value.username + ", " + this.myLogin.value.pwd);
-  
+
         this.authServ.CLogin( this.myLogin.value )
           .subscribe({
             next: (resp) => {

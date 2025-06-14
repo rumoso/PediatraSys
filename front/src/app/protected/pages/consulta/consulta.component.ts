@@ -53,7 +53,12 @@ export class ConsultaComponent implements OnInit {
   getRecetaConFecha(): string {
     // Sumar 15 días a la fecha actual
     moment.locale('es');
-    const fechaCita = moment().add(15, 'days').format('DD/MMMM/YYYY');
+
+    // Obtener la fecha actual y sumarle 15 días
+    const cita = new Date();
+    cita.setDate(cita.getDate() + 15);
+    const dia = cita.getDate();
+    const mes = cita.toLocaleString('es-ES', { month: 'long' });
 
     return `
     MEDICAMENTO suspensión de 500 mg (AMPICILINA)
@@ -65,7 +70,7 @@ export class ConsultaComponent implements OnInit {
     MEDICAMENTO suspensión de 500 mg (AMPICILINA)
     Ofrecer dosis vía oral c/ hrs, durante
 
-    CITA: ${fechaCita} - 00:00 Hrs
+    CITA ABIERTA: ${dia} de ${mes}
     `;
   }
 
@@ -375,7 +380,6 @@ export class ConsultaComponent implements OnInit {
 
 
     doc.text(receta, 10, line);
-
 
     doc.save("receta_" + nombre + "_"+ this.datepipe.transform(createDate,'ddMMyyyy') +".pdf");
   }
